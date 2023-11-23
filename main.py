@@ -2,12 +2,14 @@ from turtle import Turtle, Screen
 from random import randint
 
 screen = Screen()
+screen.setup(width=750, height=500)
 
 
-def race(turtles):
+def race(turtle_list):
+    """Loops turtles moving forward until one gets to finish line. Takes list of turtle objects."""
     finish = False
     while not finish:
-        for t in turtles:
+        for t in turtle_list:
             dist = randint(1, 5)
             t.forward(dist)
             if t.xcor() >= 300:
@@ -16,10 +18,11 @@ def race(turtles):
                 return winner
 
 
-def get_position(turtle, turtle_list):
+def get_position(chosen_turtle, turtle_list):
+    """Returns the position of the turtle in the race that the user bet on"""
     pos = 1
     for t in turtle_list:
-        if t.xcor() > turtle.xcor():
+        if t.xcor() > chosen_turtle.xcor():
             pos += 1
     if pos == 2:
         position = f"{pos}nd"
@@ -30,6 +33,8 @@ def get_position(turtle, turtle_list):
     return position
 
 def start_race():
+    """Main logic for race, asks for bet, creates all turtle objects and sets them to start line."""
+    """Game will restart if the user wants to replay."""
     red = Turtle()
     orange = Turtle()
     yellow = Turtle()
@@ -46,11 +51,11 @@ def start_race():
 
     for t in turtles:
         t.shape("turtle")
+        index = turtles.index(t)
+        t.color(turtle_colors[index])
 
     start_pos = -120
     for t in turtles:
-        index = turtles.index(t)
-        t.color(turtle_colors[index])
         t.penup()
         t.goto(-300, start_pos)
         start_pos += 50
